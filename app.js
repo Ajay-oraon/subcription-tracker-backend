@@ -8,11 +8,15 @@ import errorMiddleware from "./middlewares/error.middleware.js";
 import cookieParser from "cookie-parser";
 import arcjetMiddleware from "./middlewares/arcjet.middleware.js";
 import workflowRouter from "./routes/wrokflow.routes.js";
+import cors from "cors";
 const app = express();
 app.use(express.json());
+// In your Express app (e.g., server.js or app.js)
 
-app.use(express.urlencoded({extended:false}));
-app.use(cookieParser())
+app.use(cors({ origin: "http://127.0.0.1:5500", credentials: true }));
+
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 // app.use(arcjetMiddleware)
 app.get("/", (req, res) => {
   res.send("Welcome to the Subscription Tracker API");
@@ -21,12 +25,12 @@ app.get("/", (req, res) => {
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/subscriptions", subscriptionRouter);
-app.use("/api/v1/workflows",workflowRouter)
-app.use(errorMiddleware)
-app.listen(PORT, async() => {
+app.use("/api/v1/workflows", workflowRouter);
+app.use(errorMiddleware);
+app.listen(PORT, async () => {
   console.log(
     `Subscription Tracker API is running on http://localhost:${PORT}`
   );
   //connnect to DB
-  await connectToDatabase()
+  await connectToDatabase();
 });

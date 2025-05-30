@@ -13,7 +13,15 @@ const app = express();
 app.use(express.json());
 // In your Express app (e.g., server.js or app.js)
 
-app.use(cors({ origin: "http://127.0.0.1:5500", credentials: true }));
+app.use(
+  cors({
+    origin: [
+      "http://127.0.0.1:5500",
+      "https://subscription-tracker-frontend.vercel.app",
+    ], // 👈  frontend URL
+    credentials: true,
+  })
+);
 
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
